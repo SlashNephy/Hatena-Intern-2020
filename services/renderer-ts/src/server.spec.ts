@@ -7,6 +7,6 @@ describe("handleRender", () => {
     req.setSrc("foo https://google.com/ bar");
     const ctx = new Map<string, unknown>();
     const reply = await handleRender(req, ctx);
-    expect(reply.getHtml()).toBe('foo <a href="https://google.com/">https://google.com/</a> bar');
+    expect(reply.getHtml()).toBe('foo <a href="https://google.com/" target="_blank">https://google.com/</a> bar');
   });
 });
