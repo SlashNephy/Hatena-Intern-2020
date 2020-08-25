@@ -8,7 +8,7 @@ import emoji from "remark-emoji"
 //@ts-ignore
 import images from "remark-images"
 //@ts-ignore
-import mathjax from "remark-mathjax"
+import mathjax from "rehype-mathjax"
 
 /**
  * 受け取った文書を HTML に変換する
