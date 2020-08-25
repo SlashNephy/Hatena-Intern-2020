@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>{{block "title" .}}{{end}}</title>
     {{block "head" .}}{{end}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/railscasts.min.css">
   </head>
   <body>
     {{block "body" .}}{{end}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>
