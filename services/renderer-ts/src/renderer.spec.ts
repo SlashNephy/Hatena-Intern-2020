@@ -4,7 +4,7 @@ describe("render", () => {
   it("URL の自動リンクができる", async () => {
     const src = "foo https://google.com/ bar";
     const html = await render(src);
-    expect(html).toBe('<p>foo <a href="https://google.com/">https://google.com/</a> bar</p>');
+    expect(html).toBe('<p>foo <a href="https://google.com/" target="_blank" rel="nofollow">https://google.com/</a> bar</p>');
   });
 
   it("Markdown の記法を変換できる (見出し記法)", async () => {
@@ -15,7 +15,7 @@ describe("render", () => {
   it("Markdown の記法を変換できる (リンク記法)", async () => {
     const src = "[Google](https://google.com/)";
     const html = await render(src);
-    expect(html).toBe('<p><a href="https://google.com/">Google</a></p>');
+    expect(html).toBe('<p><a href="https://google.com/" target="_blank" rel="nofollow">Google</a></p>');
   });
   it("Markdown の記法を変換できる (リスト記法)", async () => {
     const src = `+ One
