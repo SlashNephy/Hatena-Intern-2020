@@ -42,10 +42,10 @@ spec:
         resources:
           requests:
             cpu: 100m
-            memory: 20Mi
+            memory: 40Mi
           limits:
             cpu: 200m
-            memory: 40Mi
+            memory: 80Mi
         ports:
         - containerPort: 50051
           name: renderer-ts
