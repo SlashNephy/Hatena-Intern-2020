@@ -28,4 +28,16 @@ describe("render", () => {
 <li>Three</li>
 </ul>`);
   });
+  it("Markdown の記法を変換できる (コードブロック)", async () => {
+    const src = `\`\`\`kotlin
+fun main() {
+    println("Hello, World!")
+}
+\`\`\``;
+    const html = await render(src);
+    expect(html).toBe(`<pre><code class="language-kotlin">fun main() {
+    println("Hello, World!")
+}
+</code></pre>`);
+  });
 });
