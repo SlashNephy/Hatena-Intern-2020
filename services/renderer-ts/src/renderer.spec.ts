@@ -40,4 +40,9 @@ fun main() {
 }
 </code></pre>`);
   });
+  it("Emoji Shortcode の記法を変換できる", async () => {
+    const src = ":+1:";
+    const html = await render(src);
+    expect(html).toBe('<p>👍</p>');
+  });
 });
