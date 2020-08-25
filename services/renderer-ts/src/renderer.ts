@@ -7,28 +7,30 @@ import externalLinks from "remark-external-links";
 import emoji from "remark-emoji"
 //@ts-ignore
 import images from "remark-images"
+//@ts-ignore
+import mathjax from "remark-mathjax"
 
 /**
  * 受け取った文書を HTML に変換する
  */
 export async function render(src: string): Promise<string> {
-  const result = await processMarkdown(src);
-
-  return result;
-}
-
-/**
- * Markdown 記法を HTML に変換する
- */
-async function processMarkdown(src: string): Promise<string> {
+  // unified で処理
   const processor = unified()
+      // Markdown => remark
       .use(markdown)
+      // 画像 URL => <img>
       .use(images)
+      // <a> タグにデフォルトとして target=_blank, rel=nofollow を付与
       .use(externalLinks, {target: "_blank", rel: "nofollow"})
+      // :emoji: 記法
       .use(emoji)
+      // MathJax 記法
+      .use(mathjax)
+      // remark => rehype
       .use(remark2rehype)
+      // rehype => HTML
       .use(html);
-  
+
   return processor.process(src).then((res) => {
     return String(res);
   });
