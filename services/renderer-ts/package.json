@@ -17,6 +17,7 @@
     "grpc": "^1.24.3",
     "grpc-health-check": "^1.8.0",
     "rehype-stringify": "^8.0.0",
+    "remark-external-links": "^7.0.0",
     "remark-highlight.js": "^6.0.0",
     "remark-parse": "^8.0.3",
     "remark-rehype": "^7.0.0",
