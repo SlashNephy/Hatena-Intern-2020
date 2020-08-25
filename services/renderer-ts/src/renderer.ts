@@ -5,6 +5,8 @@ import html from "rehype-stringify"
 import externalLinks from "remark-external-links";
 //@ts-ignore
 import emoji from "remark-emoji"
+//@ts-ignore
+import images from "remark-images"
 
 /**
  * 受け取った文書を HTML に変換する
@@ -21,6 +23,7 @@ export async function render(src: string): Promise<string> {
 async function processMarkdown(src: string): Promise<string> {
   const processor = unified()
       .use(markdown)
+      .use(images)
       .use(externalLinks, {target: "_blank", rel: "nofollow"})
       .use(emoji)
       .use(remark2rehype)
