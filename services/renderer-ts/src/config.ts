@@ -2,6 +2,7 @@ export type Config = Readonly<{
   mode: string;
   grpcPort: number;
   gracefulStopTimeout: number;
+  fetcherAddr: string;
 }>;
 
 /**
@@ -12,6 +13,7 @@ export function loadConfig(): Config {
     mode: "production",
     grpcPort: 50051,
     gracefulStopTimeout: 10 * 1000,
+    fetcherAddr: "fetcher:50052"
   };
 
   // mode
@@ -35,6 +37,10 @@ export function loadConfig(): Config {
       throw new Error(`GRACEFUL_STOP_TIMEOUT is invalid: ${process.env.GRACEFUL_STOP_TIMEOUT}`);
     }
     config.gracefulStopTimeout = gracefulStopTimeout;
+  }
+
+  if (process.env.FETCHER_ADDR) {
+    config.fetcherAddr = process.env.FETCHER_ADDR;
   }
 
   return config;
