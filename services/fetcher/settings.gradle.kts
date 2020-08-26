@@ -13,6 +13,9 @@ pluginManagement {
                 "com.google.protobuf" -> {
                     useModule("com.google.protobuf:protobuf-gradle-plugin:${requested.version}")
                 }
+                "com.github.johnrengelman.shadow" -> {
+                    useModule("com.github.jengelman.gradle.plugins:shadow:${requested.version}")
+                }
                 "com.adarshr.test-logger" -> {
                     useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
                 }

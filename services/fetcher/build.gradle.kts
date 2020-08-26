@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "1.4.0"
     id("com.google.protobuf") version "0.8.12"
     application
+    id("com.github.johnrengelman.shadow") version "6.0.0"
 
     // For testing
     id("com.adarshr.test-logger") version "2.0.0"
@@ -89,6 +90,12 @@ java {
 
 application {
     mainClassName = "fetcher.MainKt"
+}
+
+tasks.shadowJar {
+    manifest {
+        attributes("Main-Class" to application.mainClassName)
+    }
 }
 
 tasks.register<JavaExec>("server") {
