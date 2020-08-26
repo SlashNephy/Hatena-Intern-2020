@@ -3,16 +3,14 @@ package fetcher
 import io.grpc.ServerBuilder
 
 object FetcherServer {
-    private const val Port = 50052
-
-    private val server = ServerBuilder.forPort(Port)
+    private val server = ServerBuilder.forPort(Config.grpcPort)
         .addService(FetcherService)
         .addService(HealthCheckService)
         .build()
 
     fun start() {
         server.start()
-        logger.info { "Server started. Listening on $Port." }
+        logger.info { "Server started. Listening on ${Config.grpcPort}." }
 
         Runtime.getRuntime().addShutdownHook(Thread {
             logger.info { "*** shutting down gRPC server since JVM is shutting down" }
