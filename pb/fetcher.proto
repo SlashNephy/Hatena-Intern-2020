@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package fetcher;
+
+option java_multiple_files = true;
+option java_package = "fetcher.pb";
+option java_outer_classname = "FetcherProto";
+
+service FetcherService {
+  rpc GetPageTitle(PageTitleRequest) returns (PageTitleResponse);
+}
+
+message PageTitleRequest {
+  string url = 1;
+}
+
+message PageTitleResponse {
+  string title = 1;
+}
