@@ -1,11 +1,17 @@
 package fetcher
 
 import io.grpc.ServerBuilder
+import io.grpc.protobuf.services.ProtoReflectionService
 
 object FetcherServer {
     private val server = ServerBuilder.forPort(Config.grpcPort)
         .addService(FetcherService)
         .addService(HealthCheckService)
+        .apply {
+            if (Config.mode == Config.Mode.Development) {
+                addService(ProtoReflectionService.newInstance())
+            }
+        }
         .build()
 
     fun start() {
