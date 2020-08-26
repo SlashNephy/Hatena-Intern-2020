@@ -7,6 +7,7 @@ object FetcherServer {
 
     private val server = ServerBuilder.forPort(Port)
         .addService(FetcherService)
+        .addService(HealthCheckService)
         .build()
 
     fun start() {
