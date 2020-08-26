@@ -3,7 +3,7 @@ package fetcher
 import io.grpc.ServerBuilder
 
 object FetcherServer {
-    private const val Port = 50051
+    private const val Port = 50052
 
     private val server = ServerBuilder.forPort(Port)
         .addService(FetcherService)
