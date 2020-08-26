@@ -7,7 +7,7 @@ object Config {
 
     val mode: Mode
         get() = System.getenv("MODE")?.let {  m ->
-            Mode.values().find { it.name == m }
+            Mode.values().find { it.name.equals(m, true) }
         } ?: Mode.Production
 
     val grpcPort: Int
