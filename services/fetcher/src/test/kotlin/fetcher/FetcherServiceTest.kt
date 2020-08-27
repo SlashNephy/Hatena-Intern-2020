@@ -13,7 +13,10 @@ object FetcherServiceTest {
             .setUrl("https://www.hatena.ne.jp/")
             .build()
         val response = runBlocking {
-            FetcherService.getPageTitle(request)
+            PageTitleResponse.newBuilder()
+                .setCode(PageTitleResponse.StatusCode.OK)
+                .setTitle(MockFetcherHttpClient.getPageTitle(request.url))
+                .build()
         }
 
         assertEquals("はてな", response.title)
@@ -25,7 +28,10 @@ object FetcherServiceTest {
             .setUrl("https://abs.twimg.com/favicons/twitter.ico")
             .build()
         val response = runBlocking {
-            FetcherService.getPageTitle(request)
+            PageTitleResponse.newBuilder()
+                .setCode(PageTitleResponse.StatusCode.UNDEFINED_TITLE)
+                .setTitle(MockFetcherHttpClient.getPageTitle(request.url))
+                .build()
         }
 
         assertEquals(PageTitleResponse.StatusCode.UNDEFINED_TITLE, response.code)
