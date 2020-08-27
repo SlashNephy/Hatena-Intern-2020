@@ -56,7 +56,7 @@ function autoTitle(): Transformer {
 
             for (const node of updates) {
                 try {
-                    const title = await getPageTitle(node.url);
+                    const title = await getPageTitle(node.url) ?? node.url;
 
                     node.children.push({
                         type: "text",
