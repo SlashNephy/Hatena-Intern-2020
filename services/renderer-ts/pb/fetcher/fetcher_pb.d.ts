@@ -28,6 +28,9 @@ export namespace PageTitleRequest {
 }
 
 export class PageTitleResponse extends jspb.Message { 
+    getCode(): PageTitleResponse.StatusCode;
+    setCode(value: PageTitleResponse.StatusCode): PageTitleResponse;
+
     getTitle(): string;
     setTitle(value: string): PageTitleResponse;
 
@@ -44,6 +47,14 @@ export class PageTitleResponse extends jspb.Message {
 
 export namespace PageTitleResponse {
     export type AsObject = {
+        code: PageTitleResponse.StatusCode,
         title: string,
     }
+
+    export enum StatusCode {
+    OK = 0,
+    UNDEFINED_TITLE = 1,
+    UNAVAILABLE = 2,
+    }
+
 }

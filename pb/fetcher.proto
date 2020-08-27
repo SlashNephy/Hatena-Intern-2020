@@ -15,5 +15,12 @@ message PageTitleRequest {
 }
 
 message PageTitleResponse {
-  string title = 1;
+  enum StatusCode {
+    OK = 0;
+    UNDEFINED_TITLE = 1;
+    UNAVAILABLE = 2;
+  }
+
+  StatusCode code = 1;
+  string title = 2;
 }
