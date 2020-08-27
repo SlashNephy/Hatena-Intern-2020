@@ -9,7 +9,7 @@ object PageTitleTest {
     @Test
     fun testHtml() {
         val actual = runBlocking {
-            Http.getPageTitle("https://www.google.co.jp")
+            MockFetcherHttpClient.getPageTitle("https://www.google.co.jp")
         }
 
         assertEquals("Google", actual)
@@ -18,7 +18,7 @@ object PageTitleTest {
     @Test
     fun testNonHtml() {
         val actual = runBlocking {
-            Http.getPageTitle("https://www.hatena.ne.jp/images/portal/logo-portal-top2@2x.png")
+            MockFetcherHttpClient.getPageTitle("https://www.hatena.ne.jp/images/portal/logo-portal-top2@2x.png")
         }
 
         assertNull(actual)

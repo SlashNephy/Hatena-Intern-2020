@@ -22,6 +22,7 @@ dependencies {
 
     // HTTP
     implementation("io.ktor:ktor-client-cio:1.4.0")
+    testImplementation("io.ktor:ktor-client-mock-jvm:1.4.0")
 
     // HTML parsing
     implementation("org.jsoup:jsoup:1.13.1")
