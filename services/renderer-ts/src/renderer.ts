@@ -43,7 +43,7 @@ export async function render(src: string): Promise<string> {
  */
 function autoTitle(): Transformer {
     return function transformer(tree): Promise<void> {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve) => {
             const updates: Link[] = [];
 
             visit(tree, "link", (node: Link) => {
@@ -54,14 +54,11 @@ function autoTitle(): Transformer {
                 }
             });
 
-            for (const node of updates) {
-                try {
-                    const title = await getPageTitle(node.url) ?? node.url;
+            const promises = updates.map(node => new Promise(async (resolve) => {
+                let title: string;
 
-                    node.children.push({
-                        type: "text",
-                        value: title
-                    })
+                try {
+                    title = await getPageTitle(node.url) ?? node.url;
                 } catch (e) {
                     const logger = winston.createLogger({
                         level: "debug",
@@ -74,11 +71,20 @@ function autoTitle(): Transformer {
                     logger.error(node.url);
                     logger.error(e);
 
-                    reject(e);
+                    title = node.url;
                 }
-            }
 
-            resolve();
+                node.children.push({
+                    type: "text",
+                    value: title
+                });
+
+                resolve();
+            }));
+
+            Promise.all(promises).then(() => {
+                resolve()
+            });
         });
     };
 }
