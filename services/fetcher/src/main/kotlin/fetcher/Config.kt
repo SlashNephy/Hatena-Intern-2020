@@ -11,5 +11,5 @@ object Config {
         } ?: Mode.Production
 
     val grpcPort: Int
-        get() = System.getProperty("GRPC_PORT")?.toIntOrNull() ?: 50052
+        get() = System.getenv("GRPC_PORT")?.toIntOrNull() ?: 50052
 }
