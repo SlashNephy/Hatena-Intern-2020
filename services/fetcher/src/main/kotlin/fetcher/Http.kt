@@ -44,7 +44,12 @@ object Http: Closeable {
         val html = content.readText()
         val document = Jsoup.parse(html)
 
-        return document.title()
+        val title = document.title()
+        if (title.isBlank()) {
+            return null
+        }
+
+        return title
     }
 
     /**
