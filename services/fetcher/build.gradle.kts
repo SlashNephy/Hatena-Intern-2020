@@ -1,4 +1,5 @@
 import com.google.protobuf.gradle.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.0"
@@ -82,7 +83,15 @@ kotlin {
         main {
             kotlin.srcDir(buildDir.resolve("generated/source/proto/main/grpckt"))
         }
+
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
+        }
     }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 java {
