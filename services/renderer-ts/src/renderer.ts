@@ -1,5 +1,4 @@
-import unified from "unified"
-import markdown from "remark-parse"
+import remark from "remark"
 import remark2rehype from "remark-rehype"
 import html from "rehype-stringify"
 import externalLinks from "remark-external-links";
@@ -7,20 +6,23 @@ import externalLinks from "remark-external-links";
 import emoji from "remark-emoji"
 //@ts-ignore
 import images from "remark-images"
-//@ts-ignore
 import mathjax from "rehype-mathjax"
+import {getPageTitle} from "./client";
+import {Link} from "mdast";
+import visit from "unist-util-visit";
+import {Transformer} from "unified";
+import winston, {debug} from "winston";
 
 /**
  * 受け取った文書を HTML に変換する
  */
 export async function render(src: string): Promise<string> {
-  // unified で処理
-  const processor = unified()
-      // Markdown => remark
-      .use(markdown)
-      // 画像 URL => <img>
+  // string => remark
+  const processor = remark()
+      .use(autoTitle)
+      // 画像 URL => Image
       .use(images)
-      // <a> タグにデフォルトとして target=_blank, rel=nofollow を付与
+      // Link にデフォルトとして target=_blank, rel=nofollow を付与
       .use(externalLinks, {target: "_blank", rel: "nofollow"})
       // :emoji: 記法
       .use(emoji)
@@ -34,4 +36,55 @@ export async function render(src: string): Promise<string> {
   return processor.process(src).then((res) => {
     return String(res);
   });
+}
+
+/**
+ * Markdown リンクにタイトルを付ける処理をする Unified プラグイン
+ */
+function autoTitle(): Transformer {
+    return function transformer(tree): Promise<void> {
+        return new Promise((resolve) => {
+            const updates: Link[] = [];
+
+            visit(tree, "link", (node: Link) => {
+                const text = node.children.find(e => e.type === "text");
+                if (text === undefined) {
+                    // タイトルが付いていない場合は取得を試みる
+                    updates.push(node);
+                }
+            });
+
+            const promises = updates.map(node => new Promise(async (resolve) => {
+                let title: string;
+
+                try {
+                    title = await getPageTitle(node.url) ?? node.url;
+                } catch (e) {
+                    const logger = winston.createLogger({
+                        level: "debug",
+                        format: winston.format.combine(
+                            winston.format.timestamp(),
+                            winston.format.simple()
+                        ),
+                        transports: [new winston.transports.Console()]
+                    });
+                    logger.error(node.url);
+                    logger.error(e);
+
+                    title = node.url;
+                }
+
+                node.children.push({
+                    type: "text",
+                    value: title
+                });
+
+                resolve();
+            }));
+
+            Promise.all(promises).then(() => {
+                resolve()
+            });
+        });
+    };
 }
